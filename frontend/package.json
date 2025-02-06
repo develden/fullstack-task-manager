@@ -9,12 +9,8 @@
     "eject": "react-scripts eject"
   },
   "jest": {
-    "preset": "react-app",
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!axios)"
-    ],
-    "extensionsToTreatAsEsm": [
-      ".js"
     ],
     "transform": {
       "^.+\\.mjs$": "babel-jest",
