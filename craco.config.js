@@ -1,14 +1,13 @@
 module.exports = {
   jest: {
     configure: (jestConfig) => {
-      // Создаем копию конфигурации
-      const newJestConfig = { ...jestConfig };
-
-      // Вместо фильтрации удаляем ключ extensionsToTreatAsEsm полностью,
-      // чтобы избежать ошибки, что '.js' всегда inferred.
-      if (newJestConfig.extensionsToTreatAsEsm) {
-        delete newJestConfig.extensionsToTreatAsEsm;
+      // Удаляем ключ extensionsToTreatAsEsm напрямую из переданного объекта jestConfig,
+      // чтобы предотвратить его повторное добавление из базового конфига react‑scripts.
+      if (jestConfig.extensionsToTreatAsEsm) {
+        delete jestConfig.extensionsToTreatAsEsm;
       }
+
+      const newJestConfig = jestConfig;
 
       // Используем паттерн, который позволяет обрабатывать модуль axios из node_modules
       newJestConfig.transformIgnorePatterns = ["/node_modules/(?!axios)"];
