@@ -1,19 +1,23 @@
 module.exports = {
   jest: {
     configure: (jestConfig) => {
-      // Используем паттерн, который позволяет обрабатывать модуль axios из node_modules
-      jestConfig.transformIgnorePatterns = ["/node_modules/(?!axios)"];
+      // Создаем новую конфигурацию без свойства extensionsToTreatAsEsm,
+      // даже если оно задано через прототипную цепочку.
+      const { extensionsToTreatAsEsm, ...newJestConfig } = jestConfig;
       
-      if (!jestConfig.transform) {
-        jestConfig.transform = {};
+      // Используем паттерн, который позволяет обрабатывать модуль axios из node_modules
+      newJestConfig.transformIgnorePatterns = ["/node_modules/(?!axios)"];
+      
+      if (!newJestConfig.transform) {
+        newJestConfig.transform = {};
       }
       
       // Обработка файлов .mjs через babel-jest
-      jestConfig.transform["^.+\\.mjs$"] = "babel-jest";
+      newJestConfig.transform["^.+\\.mjs$"] = "babel-jest";
       // Обработка файлов .js, .jsx, .ts, .tsx через babel-jest
-      jestConfig.transform["^.+\\.[jt]sx?$"] = "babel-jest";
+      newJestConfig.transform["^.+\\.[jt]sx?$"] = "babel-jest";
       
-      return jestConfig;
+      return newJestConfig;
     },
   },
   // Дополнительные настройки для Webpack, если понадобятся
