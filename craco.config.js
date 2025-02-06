@@ -1,9 +1,10 @@
 module.exports = {
   jest: {
     configure: (jestConfig) => {
-      // Создаем новую конфигурацию без свойства extensionsToTreatAsEsm,
-      // даже если оно задано через прототипную цепочку.
       const { extensionsToTreatAsEsm, ...newJestConfig } = jestConfig;
+      // Принудительно задаем пустой массив для extensionsToTreatAsEsm,
+      // чтобы перекрыть установку по умолчанию.
+      newJestConfig.extensionsToTreatAsEsm = [];
       
       // Используем паттерн, который позволяет обрабатывать модуль axios из node_modules
       newJestConfig.transformIgnorePatterns = ["/node_modules/(?!axios)"];
