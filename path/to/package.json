@@ -1,7 +1,14 @@
 {
   "jest": {
     "transformIgnorePatterns": [
-      "/node_modules/(?!axios)"
-    ]
+      "<rootDir>/node_modules/(?!(axios)/)"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".js"
+    ],
+    "transform": {
+      "^.+\\.mjs$": "babel-jest",
+      "^.+\\.[jt]sx?$": "babel-jest"
+    }
   }
 } 
