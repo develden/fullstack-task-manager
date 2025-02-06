@@ -1,0 +1,38 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+      - name: Run backend tests
+        run: |
+          cd backend
+          python manage.py test
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+      - name: Run frontend tests
+        run: |
+          cd frontend
+          npm test -- --watchAll=false 
