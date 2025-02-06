@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import rest_framework.serializers
 
 # Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -92,4 +93,8 @@ CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json' 
+CELERY_RESULT_SERIALIZER = 'json'
+
+# Monkey patch для устранения проблемы с отсутствующим NullBooleanField в DRF 3.14
+if not hasattr(rest_framework.serializers, 'NullBooleanField'):
+    rest_framework.serializers.NullBooleanField = rest_framework.serializers.BooleanField 
